@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#087e99">
+  <title>RETINA AI | Diabetic Retinopathy Screening</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="dashboard">
+        <span class="brand-mark"><i data-lucide="eye"></i></span>
+        <span><b>RETINA<span>AI</span></b><small>SCREENING PLATFORM</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="main-nav">
+        <button class="nav-link active" data-page="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</button>
+        <button class="nav-link" data-page="screening"><i data-lucide="scan-eye"></i>Screening</button>
+        <button class="nav-link" data-page="history"><i data-lucide="history"></i>History</button>
+        <button class="nav-link" data-page="reports"><i data-lucide="file-text"></i>Reports</button>
+        <button class="nav-link" data-page="about"><i data-lucide="info"></i>About</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="demo-side"><span class="pulse"></span><div><b>Demo mode active</b><small>Educational prototype</small></div></div>
+        <div class="side-foot">RETINA AI <span>v1.0.0</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-btn mobile-menu" id="menuToggle" aria-label="Open menu"><i data-lucide="menu"></i></button>
+        <div class="breadcrumb">Workspace <span>/</span> <b id="pageCrumb">Dashboard</b></div>
+        <div class="top-actions"><span class="mode-pill"><span class="pulse"></span> DEMO MODE</span><div class="avatar">RA</div></div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row">
+          <div><div class="eyebrow">OVERVIEW</div><h1>Screening dashboard</h1><p class="subheading">Monitor image quality and AI-assisted screening activity.</p></div>
+          <button class="btn btn-primary" data-go="screening"><i data-lucide="plus"></i> New screening</button>
+        </div>
+        <div class="notice"><i data-lucide="shield-check"></i><span><b>Academic prototype:</b> Results are demonstrations only and are not a medical diagnosis.</span></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total images analyzed</span><i data-lucide="images"></i></div><strong id="statTotal">0</strong><small>Screenings in this browser</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Good-quality images</span><i data-lucide="badge-check"></i></div><strong id="statGood">0</strong><small>Passed image quality check</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Rejected images</span><i data-lucide="image-off"></i></div><strong id="statRejected">0</strong><small>Not sent for prediction</small></article>
+          <article class="stat-card"><div class="stat-top"><span>DR-positive demos</span><i data-lucide="activity"></i></div><strong id="statPositive">0</strong><small>Mild to proliferative demo grades</small></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h2>Screening activity</h2><p>Recent local screening records</p></div><span class="tag">LOCAL DATA</span></div><div class="bar-chart" id="activityChart"><div class="empty-chart">Your screening activity will appear here.</div></div><div class="chart-legend"><span><i class="legend-dot teal"></i> Quality passed</span><span><i class="legend-dot pale"></i> Rejected</span></div></article>
+          <article class="panel"><div class="panel-heading"><div><h2>Grade distribution</h2><p>Demo predictions only</p></div></div><div id="gradeDistribution" class="grade-list"><div class="empty-state">No predictions yet.</div></div></article>
+        </div>
+        <article class="panel quick-panel"><div class="quick-icon"><i data-lucide="scan-eye"></i></div><div><h2>Ready to screen a fundus image?</h2><p>Upload an image from a compatible retinal imaging device to begin.</p></div><button class="btn btn-secondary" data-go="screening">Start screening <i data-lucide="arrow-up-right"></i></button></article>
+      </section>
+
+      <section class="page" id="page-screening">
+        <div class="page-heading"><div class="eyebrow">IMAGE ANALYSIS</div><h1>New screening</h1><p class="subheading">Upload a retinal fundus image and follow each analysis stage.</p></div>
+        <div class="stepper" id="stepper">
+          <div class="step current"><span>1</span><small>Upload</small></div><div class="step-line"></div>
+          <div class="step"><span>2</span><small>Quality check</small></div><div class="step-line"></div>
+          <div class="step"><span>3</span><small>Preprocess</small></div><div class="step-line"></div>
+          <div class="step"><span>4</span><small>Prediction</small></div><div class="step-line"></div>
+          <div class="step"><span>5</span><small>Explainability</small></div><div class="step-line"></div>
+          <div class="step"><span>6</span><small>Report</small></div>
+        </div>
+        <div class="screening-layout">
+          <div class="screening-main">
+            <article class="panel upload-panel">
+              <div class="panel-heading"><div><h2>Upload fundus image</h2><p>Use a clear image captured by a compatible fundus camera.</p></div><span class="file-type">JPG · JPEG · PNG</span></div>
+              <div class="dropzone" id="dropzone">
+                <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden>
+                <div class="upload-symbol"><i data-lucide="cloud-upload"></i></div>
+                <h3>Drag and drop your image here</h3><p>or <button class="text-button" id="browseBtn">browse files</button> from your device</p>
+                <small>Maximum file size: 10 MB. Fundus/retinal images only.</small>
+              </div>
+              <div class="preview-wrap hidden" id="previewWrap">
+                <div class="preview-head"><div><b id="fileName">fundus-image.jpg</b><small id="fileMeta">Image selected</small></div><button class="icon-btn danger" id="removeImage" title="Remove image"><i data-lucide="trash-2"></i></button></div>
+                <img id="imagePreview" alt="Uploaded fundus image preview">
+              </div>
+              <div class="upload-actions"><span class="helper-text"><i data-lucide="lock"></i> Image is processed in this prototype session.</span><button class="btn btn-primary" id="analyzeBtn" disabled><i data-lucide="scan"></i> Analyze image</button></div>
+            </article>
+            <article class="panel result-panel hidden" id="qualityPanel">
+              <div class="panel-heading"><div><h2>Image quality assessment</h2><p>Quality screening is performed before any DR prediction.</p></div><span class="status-pill" id="qualityBadge">—</span></div>
+              <div class="quality-summary"><div class="quality-score"><strong id="qualityScore">—</strong><span>Quality score</span></div><div><h3 id="qualityTitle">Assessment pending</h3><p id="qualityMessage">Upload an image to begin.</p></div></div>
+              <div class="quality-metrics" id="qualityMetrics"></div>
+              <div class="reject-message hidden" id="rejectMessage"><i data-lucide="alert-triangle"></i><div><b>Image quality is insufficient for reliable screening.</b><p id="rejectReasons"></p><strong>Please upload/recapture a clearer fundus image.</strong></div></div>
+            </article>
+            <article class="panel result-panel hidden" id="processingPanel">
+              <div class="panel-heading"><div><h2>Image preprocessing</h2><p>Prepared model input (demonstration pipeline).</p></div><span class="status-pill status-good">COMPLETE</span></div>
+              <div class="process-flow"><div><img id="originalSmall" alt="Original fundus"><span>Original</span></div><i data-lucide="arrow-right"></i><div><img id="processedImage" alt="Enhanced image"><span>Enhanced · 224 × 224</span></div></div>
+              <div class="process-tags"><span><i data-lucide="check"></i> Border crop</span><span><i data-lucide="check"></i> Resize 224 × 224</span><span><i data-lucide="check"></i> CLAHE / normalization</span></div>
+              <p class="small-note" id="preprocessNote">Visual preview is illustrative when the backend is unavailable.</p>
+            </article>
+            <article class="panel result-panel hidden" id="predictionPanel">
+              <div class="panel-heading"><div><h2>AI screening result</h2><p>Five-class DR severity classification.</p></div><span class="demo-label">DEMO PREDICTION</span></div>
+              <div class="prediction-card"><div><span class="eyebrow">PREDICTED DR GRADE</span><h2 id="predictionName">—</h2><p id="recommendation">—</p></div><div class="confidence-ring" id="confidenceRing"><strong id="confidenceValue">—</strong><small>confidence</small></div></div>
+              <div class="probability-block"><div class="panel-heading"><h3>Class probability distribution</h3><span class="small-note">Demonstration values</span></div><div id="probabilities"></div></div>
+              <div class="safety-note" id="safetyNote"><i data-lucide="shield-alert"></i><span>Demo prediction — not generated by a clinically validated model.</span></div>
+            </article>
+            <article class="panel result-panel hidden" id="gradcamPanel">
+              <div class="panel-heading"><div><h2>Explainability · Grad-CAM</h2><p>Illustrative heatmap panels for the demo workflow.</p></div><span class="tag">VISUAL EXPLANATION</span></div>
+              <div class="gradcam-grid"><div><img id="camOriginal" alt="Original image"><span>Original fundus</span></div><div class="heatmap-preview" id="heatmapPreview"><img id="camHeatmap" alt="Grad-CAM style heatmap"></div><div><img id="camOverlay" alt="Grad-CAM overlay"><span>Overlay</span></div></div>
+              <p class="small-note">Highlighted regions are illustrative in demo mode. A genuine Grad-CAM must be computed from gradients of the connected model and is not an independent diagnostic method.</p>
+            </article>
+            <article class="panel result-panel hidden" id="reportPanel">
+              <div class="panel-heading"><div><h2>Screening report</h2><p>Your result summary is ready.</p></div><span class="status-pill status-good">READY</span></div>
+              <div class="report-summary" id="reportSummary"></div>
+              <div class="report-actions"><button class="btn btn-primary" id="downloadReport"><i data-lucide="file-down"></i> Download report (PDF)</button><button class="btn btn-outline" id="printReport"><i data-lucide="printer"></i> Print</button></div>
+            </article>
+          </div>
+          <aside class="screening-aside">
+            <article class="panel workflow-panel"><h3>Screening workflow</h3><p>Each stage must complete in order.</p><div class="workflow-list" id="workflowList"><div class="workflow-item active"><span>1</span><div><b>Upload image</b><small>Waiting for fundus image</small></div></div><div class="workflow-item"><span>2</span><div><b>Quality check</b><small>Blur, brightness, visibility</small></div></div><div class="workflow-item"><span>3</span><div><b>Preprocessing</b><small>Crop, enhance and resize</small></div></div><div class="workflow-item"><span>4</span><div><b>AI prediction</b><small>DR severity classification</small></div></div><div class="workflow-item"><span>5</span><div><b>Grad-CAM</b><small>Model explanation</small></div></div><div class="workflow-item"><span>6</span><div><b>Report</b><small>Generate screening summary</small></div></div></div></article>
+            <article class="panel safety-panel"><div class="safety-icon"><i data-lucide="heart-pulse"></i></div><h3>Safety first</h3><p>This academic prototype does not provide a diagnosis. Always consult a qualified eye-care professional for clinical assessment.</p></article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="page-heading"><div class="eyebrow">LOCAL RECORDS</div><h1>Screening history</h1><p class="subheading">Records saved in this browser for demonstration purposes.</p></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><h2>Recent screenings</h2><p>Demo records · no real patient identifiers</p></div><button class="btn btn-outline btn-small" id="clearHistory">Clear history</button></div><div class="table-scroll"><table><thead><tr><th>Screening ID</th><th>Date</th><th>Image quality</th><th>DR grade</th><th>Confidence</th><th>Status</th></tr></thead><tbody id="historyTable"><tr><td colspan="6" class="table-empty">No screening records yet. Start a new screening to create one.</td></tr></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-reports">
+        <div class="page-heading"><div class="eyebrow">DOCUMENTS</div><h1>Reports</h1><p class="subheading">View and download generated screening summaries.</p></div>
+        <div id="reportsList" class="reports-list"><article class="panel empty-state">No reports generated yet. Complete a screening to create a report.</article></div>
+      </section>
+
+      <section class="page" id="page-about">
+        <div class="page-heading"><div class="eyebrow">PROJECT INFORMATION</div><h1>About RETINA AI</h1><p class="subheading">An academic prototype for explainable diabetic retinopathy screening.</p></div>
+        <article class="panel about-intro"><div class="about-symbol"><i data-lucide="eye"></i></div><div><h2>AI-Based Diabetic Retinopathy Screening</h2><p>Diabetic retinopathy (DR) is an eye condition associated with diabetes that can affect the blood vessels in the retina. This project demonstrates an AI-assisted workflow for retinal image quality assessment, severity classification and model explainability.</p></div></article>
+        <div class="about-grid">
+          <article class="panel"><i data-lucide="camera" class="about-icon"></i><h3>Fundus image</h3><p>A fundus image is a photograph of the interior surface of the eye, including the retina, optic disc and blood vessels, captured using retinal imaging equipment.</p></article>
+          <article class="panel"><i data-lucide="scan" class="about-icon"></i><h3>Why image quality matters</h3><p>Blur, poor illumination, low contrast or incomplete retinal coverage can make image interpretation unreliable. Quality checks should happen before classification.</p></article>
+          <article class="panel"><i data-lucide="brain-circuit" class="about-icon"></i><h3>EfficientNet-B0</h3><p>EfficientNet-B0 is a convolutional neural network architecture that balances model depth, width and image resolution. It can be adapted through transfer learning for five DR grades.</p></article>
+          <article class="panel"><i data-lucide="scan-eye" class="about-icon"></i><h3>Grad-CAM</h3><p>Gradient-weighted Class Activation Mapping creates a heatmap from model gradients to highlight image regions influential to a selected prediction.</p></article>
+        </div>
+        <article class="panel grades-panel"><h2>Five DR severity categories</h2><div class="grade-chips"><span><b>0</b> No DR</span><span><b>1</b> Mild DR</span><span><b>2</b> Moderate DR</span><span><b>3</b> Severe DR</span><span><b>4</b> Proliferative DR</span></div><p class="small-note">Dataset reference: APTOS 2019 Blindness Detection. The dataset is not bundled into this website.</p></article>
+        <div class="about-disclaimer"><i data-lucide="alert-circle"></i><span>Developed as an academic mini-project. This application is an educational screening prototype and does not replace examination by a qualified ophthalmologist.</span></div>
+      </section>
+
+      <footer class="footer">© 2026 RETINA AI · Academic screening prototype <span>Not for clinical diagnosis</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
